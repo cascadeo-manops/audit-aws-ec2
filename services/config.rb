@@ -127,6 +127,20 @@ coreo_aws_advisor_alert "ec2-TCP-22-0.0.0.0/0" do
   alert_when ["tcp", 22, "0.0.0.0/0"]
 end
 
+coreo_aws_advisor_alert "ec2-TCP-6379-0.0.0.0/0" do
+  action :define
+  service :ec2
+  link "http://kb.cloudcoreo.com/mydoc_ec2-tcpportopen.html"
+  description "Important TCP port is open and/or open to the world."
+  category "Security"
+  suggested_action "Only open those ports that must be open for your service to operate. Consider deleting or modifying the affected security group."
+  level "Warning"
+  objectives ["","","security_groups"]
+  audit_objects ["security_group_info.ip_permissions.ip_protocol", "security_group_info.ip_permissions.from_port", "security_group_info.ip_permissions.ip_ranges.cidr_ip"]
+  operators ["==","==","=="]
+  alert_when ["tcp", 6379, "0.0.0.0/0"]
+end
+
 coreo_aws_advisor_alert "ec2-TCP-5439-0.0.0.0/0" do
   action :define
   service :ec2
